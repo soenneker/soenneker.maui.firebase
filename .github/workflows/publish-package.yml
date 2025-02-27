@@ -3,7 +3,6 @@ on:
   push:
     branches:
       - main
-
     tags:
       - v*
 
@@ -12,15 +11,16 @@ env:
 
 jobs:
   publish-package:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest  # ✅ Switch to Windows
 
     steps:
       - uses: actions/checkout@v4
       
       - name: Setting up build version
+        shell: pwsh
         run: |
-          version=$(($GITHUB_RUN_NUMBER))
-          echo "BUILD_VERSION=3.0.$version" >> ${GITHUB_ENV}
+          $version = "3.0.$env:GITHUB_RUN_NUMBER"
+          echo "BUILD_VERSION=$version" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
@@ -31,28 +31,29 @@ jobs:
         run: dotnet workload install maui
 
       - name: Enable MAUI workload resolver
-        run: echo "DOTNET_WORKLOAD_RESOLVER_SUGGESTION_SILENT=1" >> $GITHUB_ENV
+        shell: pwsh
+        run: echo "DOTNET_WORKLOAD_RESOLVER_SUGGESTION_SILENT=1" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8
 
       - name: Install dependencies with retry
+        shell: pwsh
         run: |
-          retries=5
-          base_wait_time=15
-          exponent=2
+          $retries = 5
+          $baseWaitTime = 15
+          $exponent = 2
 
-          for i in $(seq 1 $retries); do
-            if dotnet restore; then
+          for ($i = 1; $i -le $retries; $i++) {
+            if (dotnet restore) {
               break
-            fi
-
-            if [ $i -lt $retries ]; then
-              wait_time=$(awk "BEGIN {print int($base_wait_time * ($exponent ^ ($i - 1)))}")
-              echo "dotnet restore failed, retrying in $wait_time seconds..."
-              sleep $wait_time
-            else
-              echo "dotnet restore failed after $retries retries."
+            }
+            if ($i -lt $retries) {
+              $waitTime = [math]::Pow($baseWaitTime * $exponent, $i - 1)
+              Write-Host "dotnet restore failed, retrying in $waitTime seconds..."
+              Start-Sleep -Seconds $waitTime
+            } else {
+              Write-Host "dotnet restore failed after $retries retries."
               exit 1
-            fi
-          done
+            }
+          }
 
       - name: Build for all frameworks
         run: dotnet build --configuration Release --no-restore
@@ -64,37 +65,37 @@ jobs:
         run: dotnet pack --no-build --configuration Release --output .
 
       - name: Publish to NuGet with retry
+        shell: pwsh
         run: |
-          nupkg_files=$(find . -name "*.nupkg")
-          retries=5
-          base_wait_time=20 
-          exponent=3.5
+          $nupkg_files = Get-ChildItem -Path . -Filter "*.nupkg"
+          $retries = 5
+          $baseWaitTime = 20 
+          $exponent = 3.5
           
-          for i in $(seq 1 $retries); do
-            if dotnet nuget push $nupkg_files --source 'https://api.nuget.org/v3/index.json' --api-key ${{secrets.NUGET_TOKEN}} --skip-duplicate; then
+          for ($i = 1; $i -le $retries; $i++) {
+            if (dotnet nuget push $nupkg_files --source 'https://api.nuget.org/v3/index.json' --api-key "${{ secrets.NUGET_TOKEN }}" --skip-duplicate) {
               break
-            fi
-            
-            if [ $i -lt $retries ]; then
-              wait_time=$(awk "BEGIN {print int($base_wait_time * ($exponent ^ ($i - 1)))}")
-              echo "NuGet publish failed, retrying in $wait_time seconds..."
-              sleep $wait_time
-            else
-              echo "NuGet publish failed after $retries retries."
+            }
+            if ($i -lt $retries) {
+              $waitTime = [math]::Pow($baseWaitTime * $exponent, $i - 1)
+              Write-Host "NuGet publish failed, retrying in $waitTime seconds..."
+              Start-Sleep -Seconds $waitTime
+            } else {
+              Write-Host "NuGet publish failed after $retries retries."
               exit 1
-            fi
-          done
+            }
+          }
 
       - name: Add GitHub NuGet Source
         run: |
-          dotnet nuget add source https://nuget.pkg.github.com/soenneker/index.json \
-            --name "github" \
-            --username "any" \
-            --password ${{ secrets.GH_TOKEN }} \
+          dotnet nuget add source https://nuget.pkg.github.com/soenneker/index.json `
+            --name "github" `
+            --username "any" `
+            --password ${{ secrets.GH_TOKEN }} `
             --store-password-in-clear-text
 
       - name: Publish to GitHub Packages
         run: |
-          dotnet nuget push ./*.nupkg \
-            --source "github" \
+          dotnet nuget push ./*.nupkg `
+            --source "github" `
             --api-key ${{ secrets.GH_TOKEN }}
