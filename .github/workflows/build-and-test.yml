@@ -20,6 +20,12 @@ jobs:
         with:
           dotnet-version: 9.0.x
 
+      - name: Install .NET MAUI workload
+        run: dotnet workload install maui
+
+      - name: Enable MAUI workload resolver
+        run: echo "DOTNET_WORKLOAD_RESOLVER_SUGGESTION_SILENT=1" >> $GITHUB_ENV
+
       - name: Install dependencies with retry
         run: |
           retries=5
@@ -41,11 +47,11 @@ jobs:
             fi
           done
 
-      - name: Build
+      - name: Build for all target frameworks
         run: dotnet build --configuration Release --no-restore
 
-      - name: Test
-        run: dotnet test test/Soenneker.Maui.Firebase.Tests/Soenneker.Maui.Firebase.Tests.csproj --no-restore --verbosity normal
+      - name: Test (only .NET 9.0)
+        run: dotnet test test/Soenneker.Maui.Firebase.Tests/Soenneker.Maui.Firebase.Tests.csproj --framework net9.0 --no-restore --verbosity normal
 
       - name: Pack
         run: dotnet pack --no-build --configuration Release --output .
