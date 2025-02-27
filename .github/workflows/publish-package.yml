@@ -95,7 +95,13 @@ jobs:
             --store-password-in-clear-text
 
       - name: Publish to GitHub Packages
+        shell: pwsh
         run: |
-          dotnet nuget push ./*.nupkg `
-            --source "github" `
-            --api-key ${{ secrets.GH_TOKEN }}
+          $nupkg_files = Get-ChildItem -Path . -Filter "*.nupkg"
+          if ($nupkg_files) {
+            dotnet nuget push $nupkg_files --source "github" --api-key "${{ secrets.GH_TOKEN }}"
+          } else {
+            Write-Host "Error: No .nupkg files found!"
+            exit 1
+          }
+
