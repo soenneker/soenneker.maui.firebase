@@ -66,7 +66,7 @@
         <Version>2.9.2</Version>
       </PackageReference>
       <PackageReference Include="Xamarin.AndroidX.SavedState.SavedState.Ktx">
-        <Version>1.3.1</Version>
+        <Version>1.3.1.1</Version>
       </PackageReference>
       <PackageReference Include="Xamarin.Firebase.Common">
         <Version>122.0.0</Version>
