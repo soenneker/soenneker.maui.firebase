@@ -52,7 +52,7 @@ jobs:
       - name: Build for all frameworks
         run: dotnet build --configuration Release --no-restore
 
-      - name: Test (only .NET 9.0)
+      - name: Test (only .NET 10.0)
         run: dotnet test test/Soenneker.Maui.Firebase.Tests/Soenneker.Maui.Firebase.Tests.csproj --framework net10.0 --no-restore --verbosity normal
 
       - name: Pack
