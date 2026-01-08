@@ -69,7 +69,7 @@
             <Version>2.10.0.1</Version>
         </PackageReference>
         <PackageReference Include="Xamarin.AndroidX.Lifecycle.ViewModel.Ktx">
-            <Version>2.10.0</Version>
+            <Version>2.10.0.1</Version>
         </PackageReference>
         <PackageReference Include="Xamarin.AndroidX.SavedState.SavedState.Ktx">
             <Version>1.4.0.1</Version>
