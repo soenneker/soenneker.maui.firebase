@@ -75,7 +75,7 @@
             <Version>1.4.0.1</Version>
         </PackageReference>
         <PackageReference Include="Xamarin.Firebase.Common">
-            <Version>122.0.1</Version>
+            <Version>122.0.1.1</Version>
         </PackageReference>
     </ItemGroup>
 
