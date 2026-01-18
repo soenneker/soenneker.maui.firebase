@@ -9,6 +9,8 @@
         <TestingPlatformDotnetTestSupport>true</TestingPlatformDotnetTestSupport>
         <Platforms>AnyCPU</Platforms>
         <NoWarn>$(NoWarn);1591</NoWarn>
+        <TestingPlatformShowTestsFailure>true</TestingPlatformShowTestsFailure>
+
     </PropertyGroup>
 
     <ItemGroup>
