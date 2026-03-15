@@ -53,7 +53,7 @@ jobs:
         run: dotnet workload restore src/Soenneker.Maui.Firebase/Soenneker.Maui.Firebase.csproj --verbosity minimal
 
       - name: Restore tests
-        run: dotnet restore test/Soenneker.Maui.Firebase.Tests/Soenneker.Maui.Firebase.Tests.csproj --verbosity minimal
+        run: dotnet restore test/Soenneker.Maui.Firebase.Tests/Soenneker.Maui.Firebase.Tests.csproj --framework net10.0 --verbosity minimal
 
       - name: Build tests
         run: dotnet build test/Soenneker.Maui.Firebase.Tests/Soenneker.Maui.Firebase.Tests.csproj --framework net10.0 --configuration Release --no-restore --verbosity minimal
