@@ -48,23 +48,18 @@ jobs:
         uses: actions/setup-dotnet@v5
         with:
           dotnet-version: 10.0.x
-
-      - name: Install MAUI workloads
-        shell: bash
-        run: |
-          sudo dotnet workload install maui --skip-manifest-update
-
-      - name: Show installed workloads
-        run: dotnet workload list
+          
+      - name: Workload restore
+        run: dotnet workload restore src/Soenneker.Maui.Firebase/Soenneker.Maui.Firebase.csproj --verbosity minimal
 
       - name: Restore tests
         run: dotnet restore test/Soenneker.Maui.Firebase.Tests/Soenneker.Maui.Firebase.Tests.csproj /p:TargetFramework=net10.0 --verbosity minimal
 
       - name: Build tests
-        run: dotnet build test/Soenneker.Maui.Firebase.Tests/Soenneker.Maui.Firebase.Tests.csproj --framework net10.0 --configuration Release --no-restore --verbosity minimal
+        run: dotnet build test/Soenneker.Maui.Firebase.Tests/Soenneker.Maui.Firebase.Tests.csproj --configuration Release --no-restore --verbosity minimal
 
       - name: Test
-        run: dotnet test test/Soenneker.Maui.Firebase.Tests/Soenneker.Maui.Firebase.Tests.csproj --framework net10.0 --configuration Release --no-build --no-restore --verbosity normal
+        run: dotnet test test/Soenneker.Maui.Firebase.Tests/Soenneker.Maui.Firebase.Tests.csproj --configuration Release --no-build --no-restore --verbosity normal
 
       - name: Restore library
         run: dotnet restore src/Soenneker.Maui.Firebase/Soenneker.Maui.Firebase.csproj --verbosity minimal
