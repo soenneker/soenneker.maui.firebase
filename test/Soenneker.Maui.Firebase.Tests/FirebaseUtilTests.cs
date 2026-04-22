@@ -1,19 +1,18 @@
-﻿using Soenneker.Maui.Firebase.Abstract;
-using Soenneker.Tests.FixturedUnit;
-using Xunit;
+using Soenneker.Maui.Firebase.Abstract;
+using Soenneker.Tests.HostedUnit;
 
 namespace Soenneker.Maui.Firebase.Tests;
 
-[Collection("Collection")]
-public class FirebaseUtilTests : FixturedUnitTest
+[ClassDataSource<Host>(Shared = SharedType.PerTestSession)]
+public class FirebaseUtilTests : HostedUnitTest
 {
 
-    public FirebaseUtilTests(Fixture fixture, ITestOutputHelper output) : base(fixture, output)
+    public FirebaseUtilTests(Host host) : base(host)
     {
 
     }
 
-    [Fact]
+    [Test]
     public void Default()
     {
 
