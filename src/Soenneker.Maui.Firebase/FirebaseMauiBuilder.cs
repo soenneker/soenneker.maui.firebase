@@ -16,6 +16,9 @@ using Foundation;
 
 namespace Soenneker.Maui.Firebase;
 
+/// <summary>
+/// Represents the firebase maui builder.
+/// </summary>
 public class FirebaseMauiBuilder
 {
     private readonly MauiAppBuilder _builder;
@@ -29,6 +32,10 @@ public class FirebaseMauiBuilder
         _config = config;
     }
 
+    /// <summary>
+    /// Executes the initialize operation.
+    /// </summary>
+    /// <returns>The result of the operation.</returns>
     public FirebaseMauiBuilder Initialize()
     {
         if (_firebaseInitialized)
@@ -77,12 +84,21 @@ public class FirebaseMauiBuilder
         return this;
     }
 
+    /// <summary>
+    /// Adds service.
+    /// </summary>
+    /// <param name="configureService">The configure service.</param>
+    /// <returns>The result of the operation.</returns>
     public FirebaseMauiBuilder AddService(Action<object?, FirebaseConfig> configureService)
     {
         _serviceConfigurations.Add(configureService);
         return this;
     }
 
+    /// <summary>
+    /// Executes the build operation.
+    /// </summary>
+    /// <returns>The result of the operation.</returns>
     public MauiAppBuilder Build()
     {
         Initialize();

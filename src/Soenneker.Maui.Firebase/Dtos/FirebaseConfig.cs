@@ -4,6 +4,9 @@ using Firebase;
 
 namespace Soenneker.Maui.Firebase.Dtos
 {
+    /// <summary>
+    /// Represents the firebase config.
+    /// </summary>
     public class FirebaseConfig
     {
 #if ANDROID
