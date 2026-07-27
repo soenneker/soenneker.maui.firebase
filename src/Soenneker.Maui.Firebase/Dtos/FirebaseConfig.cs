@@ -14,7 +14,7 @@ namespace Soenneker.Maui.Firebase.Dtos
 #endif
 
 #if IOS
-        public global::Firebase.Core.Options Options { get; set; }
+        public global::Firebase.Core.Options? Options { get; set; }
 #endif
     }
 }

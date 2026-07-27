@@ -46,7 +46,7 @@ public class FirebaseMauiBuilder
 #if ANDROID
             events.AddAndroid(android => android.OnApplicationCreate(app =>
             {
-                FirebaseApp firebaseApp = _config.Options != null
+                FirebaseApp? firebaseApp = _config.Options != null
                     ? FirebaseApp.InitializeApp(app, _config.Options)
                     : FirebaseApp.InitializeApp(app);
 
@@ -68,7 +68,7 @@ public class FirebaseMauiBuilder
                 }
                 else
                 {
-                    global::Firebase.Core.App.Configure(_config.Options);
+                    global::Firebase.Core.App.Configure();
                 }
                 foreach (var configure in _serviceConfigurations)
                 {
