@@ -33,9 +33,9 @@ public class FirebaseMauiBuilder
     }
 
     /// <summary>
-    /// Executes the initialize operation.
+    /// Adds the initialize firebase maui utility to the class list.
     /// </summary>
-    /// <returns>The result of the operation.</returns>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public FirebaseMauiBuilder Initialize()
     {
         if (_firebaseInitialized)
@@ -87,8 +87,8 @@ public class FirebaseMauiBuilder
     /// <summary>
     /// Adds service.
     /// </summary>
-    /// <param name="configureService">The configure service.</param>
-    /// <returns>The result of the operation.</returns>
+    /// <param name="configureService">Callback used by add service.</param>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public FirebaseMauiBuilder AddService(Action<object?, FirebaseConfig> configureService)
     {
         _serviceConfigurations.Add(configureService);
@@ -96,9 +96,9 @@ public class FirebaseMauiBuilder
     }
 
     /// <summary>
-    /// Executes the build operation.
+    /// Adds the build firebase maui utility to the class list.
     /// </summary>
-    /// <returns>The result of the operation.</returns>
+    /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public MauiAppBuilder Build()
     {
         Initialize();
