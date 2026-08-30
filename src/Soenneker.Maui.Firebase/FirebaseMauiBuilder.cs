@@ -24,7 +24,7 @@ public class FirebaseMauiBuilder
     private readonly MauiAppBuilder _builder;
     private readonly FirebaseConfig _config;
     private readonly List<Action<object?, FirebaseConfig>> _serviceConfigurations = [];
-    private bool _firebaseInitialized = false;
+    private bool _lifecycleConfigured;
 
     public FirebaseMauiBuilder(MauiAppBuilder builder, FirebaseConfig config)
     {
@@ -33,12 +33,12 @@ public class FirebaseMauiBuilder
     }
 
     /// <summary>
-    /// Adds the initialize firebase maui utility to the class list.
+    /// Configures Firebase initialization during the native application lifecycle.
     /// </summary>
     /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public FirebaseMauiBuilder Initialize()
     {
-        if (_firebaseInitialized)
+        if (_lifecycleConfigured)
             return this;
 
         _builder.ConfigureLifecycleEvents(events =>
@@ -55,7 +55,6 @@ public class FirebaseMauiBuilder
                     configure(firebaseApp, _config);
                 }
 
-                _firebaseInitialized = true;
             }));
 #endif
 
@@ -75,11 +74,12 @@ public class FirebaseMauiBuilder
                     configure(null, _config);
                 }
 
-                _firebaseInitialized = true;
                 return true;
             }));
 #endif
         });
+
+        _lifecycleConfigured = true;
 
         return this;
     }
@@ -96,7 +96,7 @@ public class FirebaseMauiBuilder
     }
 
     /// <summary>
-    /// Adds the build firebase maui utility to the class list.
+    /// Completes Firebase configuration and returns the underlying MAUI application builder.
     /// </summary>
     /// <returns>The same builder instance, so additional classes or variants can be chained.</returns>
     public MauiAppBuilder Build()

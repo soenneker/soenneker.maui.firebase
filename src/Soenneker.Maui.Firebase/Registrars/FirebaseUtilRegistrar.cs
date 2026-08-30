@@ -9,7 +9,7 @@ namespace Soenneker.Maui.Firebase.Registrars;
 public static class FirebaseUtilRegistrar
 {
     /// <summary>
-    /// Adds the use firebase firebase util utility to the class list.
+    /// Starts Firebase configuration for the MAUI application.
     /// </summary>
     /// <param name="builder">Builder to configure.</param>
     /// <param name="config">Config for the use firebase operation.</param>
