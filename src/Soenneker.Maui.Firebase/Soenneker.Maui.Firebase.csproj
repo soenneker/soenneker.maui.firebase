@@ -1,18 +1,18 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <TargetFrameworks>net10.0;net10.0-android;net10.0-ios</TargetFrameworks>
+        <TargetFrameworks>net11.0;net11.0-android;net11.0-ios</TargetFrameworks>
         <IsAotCompatible>true</IsAotCompatible>
         <SingleProject>true</SingleProject>
         <Nullable>enable</Nullable>
         <Platforms>AnyCPU</Platforms>
         <NoWarn>$(NoWarn);1591</NoWarn>
         <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">15.0</SupportedOSPlatformVersion>
-        <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
+        <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">24.0</SupportedOSPlatformVersion>
     </PropertyGroup>
 
     <PropertyGroup>
         <Description>A cross-platform library for adding Firebase to MAUI applications</Description>
-        <Version Condition="'$(BUILD_VERSION)' == ''">4.0.0</Version>
+        <Version Condition="'$(BUILD_VERSION)' == ''">11.0.0</Version>
         <Version Condition="'$(BUILD_VERSION)' != ''">$(BUILD_VERSION)</Version>
         <AssemblyName>Soenneker.Maui.Firebase</AssemblyName>
         <PackageId>Soenneker.Maui.Firebase</PackageId>
@@ -52,7 +52,7 @@
         <PackageReference Include="Microsoft.Maui.Controls" Version="10.0.120" />
     </ItemGroup>
 
-    <ItemGroup Condition="'$(TargetFramework)' == 'net10.0-android'">
+    <ItemGroup Condition="'$(TargetFramework)' == 'net11.0-android'">
         <PackageReference Include="Xamarin.AndroidX.Fragment.Ktx">
             <Version>1.9.0</Version>
         </PackageReference>
@@ -76,7 +76,7 @@
         </PackageReference>
     </ItemGroup>
 
-    <ItemGroup Condition="'$(TargetFramework)' == 'net10.0-ios'">
+    <ItemGroup Condition="'$(TargetFramework)' == 'net11.0-ios'">
         <PackageReference Include="Xamarin.Firebase.iOS.Core">
             <Version>8.10.0.3</Version>
         </PackageReference>
